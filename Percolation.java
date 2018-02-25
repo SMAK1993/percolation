@@ -22,12 +22,6 @@ public class Percolation {
     public void open(int row, int col) {
         checkArgument(row);
         checkArgument(col);
-        // if (row < 1 || row > sites.length) {
-        //     throw new IllegalArgumentException(Integer.toString(row));
-        // }
-        // if (col < 1 || col > sites.length) {
-        //     throw new IllegalArgumentException(Integer.toString(col));
-        // }
         sites[row-1][col-1] = true;
         return;
     }
@@ -36,12 +30,6 @@ public class Percolation {
     public boolean isOpen(int row, int col) {
         checkArgument(row);
         checkArgument(col);
-        // if (row < 1 || row > sites.length) {
-        //     throw new IllegalArgumentException(Integer.toString(row));
-        // }
-        // if (col < 1 || col > sites.length) {
-        //     throw new IllegalArgumentException(Integer.toString(col));
-        // }
         return sites[row-1][col-1];
     }
 
