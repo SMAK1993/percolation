@@ -20,12 +20,24 @@ public class Percolation {
         checkArgument(col);
         sites[row][col] = true;
         openSiteCount++;
-        if (row == 1) myWeightedQuickUnionUF.union(xyTo1D(row, col), 0);
-        if (row > 1 && sites[row - 1][col]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row - 1, col));
-        if (row < sitesLength && sites[row + 1][col]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row + 1, col));
-        if (row == sitesLength) myWeightedQuickUnionUF.union(xyTo1D(row, col), (sitesLength * sitesLength) + 1);
-        if (col > 1 && sites[row][col-1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
-        if (col < sitesLength && sites[row][col+1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
+        if (row == 1) {
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), 0);
+        }
+        if (row > 1 && sites[row - 1][col]) {
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row - 1, col));
+        }
+        if (row < sitesLength && sites[row + 1][col]) {
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row + 1, col));
+        }
+        if (row == sitesLength) {
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), (sitesLength * sitesLength) + 1);
+        }
+        if (col > 1 && sites[row][col-1]) {
+            yWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
+        }
+        if (col < sitesLength && sites[row][col+1]) {
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
+        }
     }
 
     // is site (row, col) open?
