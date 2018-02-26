@@ -33,7 +33,7 @@ public class Percolation {
             myWeightedQuickUnionUF.union(xyTo1D(row, col), (sitesLength * sitesLength) + 1);
         }
         if (col > 1 && sites[row][col-1]) {
-            yWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
+            myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
         }
         if (col < sitesLength && sites[row][col+1]) {
             myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
