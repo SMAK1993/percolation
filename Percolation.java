@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
@@ -14,7 +12,7 @@ public class Percolation {
 
     // create n-by-n grid, with all sites blocked
     public Percolation(int n) {
-        if (n <= 0) throw new IndexOutOfBoundsException("grid size out of bounds");
+        if (n <= 0) throw new IndexOutOfBoundsException("Grid size out of bounds");
         sites = new boolean[n + 1][n + 1];
         myWeightedQuickUnionUF = new WeightedQuickUnionUF((n*n) + 2);
         sitesLength = n;
@@ -69,47 +67,7 @@ public class Percolation {
         return ((sitesLength * (row-1)) + col);
     }
 
-    private void printSites() {
-        // System.out.println(Arrays.deepToString(myPercolation.sites));
-        System.out.println("Printing Sites");
-        for (boolean[] site : sites) {
-            System.out.println(Arrays.toString(site));
-        }
-    }
-
     // test client (optional)
-    public static void main(String[] args) {
-        Percolation myPercolation = new Percolation(3);
-
-        System.out.println("Percolate? " + myPercolation.percolates());
-
-        myPercolation.open(1, 1);
-        myPercolation.open(1, 2);
-        myPercolation.open(1, 3);
-
-        myPercolation.open(2, 1);
-        myPercolation.open(2, 2);
-        myPercolation.open(2, 3);
-
-        // myPercolation.open(3, 1);
-        // myPercolation.open(3, 2);
-        // myPercolation.open(3, 3);
-
-        myPercolation.printSites();
-
-        // System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 1));
-        // System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 3));
-        // System.out.println(myPercolation.myWeightedQuickUnionUF.connected(1, 4));
-        // System.out.println(myPercolation.myWeightedQuickUnionUF.connected(3, 4));
-
-        // System.out.println(myPercolation.myWeightedQuickUnionUF.count());
-
-        System.out.println(myPercolation.numberOfOpenSites());
-        for (int i = 0; i < 11; i++) {
-            System.out.println("Find(" + i + ") = " + myPercolation.myWeightedQuickUnionUF.find(i));
-        }
-
-        System.out.println("Percolate? " + myPercolation.percolates());
-    }
+    public static void main(String[] args) {}
  }
 
