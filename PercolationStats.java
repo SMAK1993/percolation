@@ -25,7 +25,7 @@ public class PercolationStats {
                     percolationTrial.open(row, col);
                 }
             }
-            trialResults[i] = (double) percolationTrial.numberOfOpenSites()/ (n*n);
+            trialResults[i] = (double) percolationTrial.numberOfOpenSites() / (n*n);
         }
     }
 
