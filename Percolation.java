@@ -2,8 +2,8 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private boolean[][] sites;
-    private WeightedQuickUnionUF myWeightedQuickUnionUF;
-    private int sitesLength;
+    private final WeightedQuickUnionUF myWeightedQuickUnionUF;
+    private final int sitesLength;
     private int openSiteCount = 0;
 
     // create n-by-n grid, with all sites blocked
@@ -76,6 +76,7 @@ public class Percolation {
     }
 
     // test client (optional)
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+      //empty because I removed test code
+    }
  }
-
