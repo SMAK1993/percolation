@@ -13,60 +13,40 @@ public class Percolation {
 
     // create n-by-n grid, with all sites blocked
     public Percolation(int n) {
-        if (n <= 0) throw new IllegalArgumentException(Integer.toString(n));
-        sites = new boolean[n][n];
+        if (n <= 0) throw new IndexOutOfBoundsException("grid size out of bounds");
+        sites = new boolean[n + 1][n + 1];
         myWeightedQuickUnionUF = new WeightedQuickUnionUF(n*n);
-        sitesLength = n - 1;
-        return;
+        sitesLength = n;
     }
 
     // open site (row, col) if it is not open already
     public void open(int row, int col) {
         checkArgument(row);
         checkArgument(col);
-        sites[row - 1][col - 1] = true;
-        if (row == 0) {
-            if (isOpen(row + 1, col)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row + 1, col));
-            if (col == 0 && isOpen(row, col + 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col + 1));
-            else if (col == sitesLength && isOpen(row ,col - 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col - 1));
-            else {
-                if (isOpen(row, col + 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col + 1));
-                if (isOpen(row, col - 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col - 1));
-            }
-        }
-        else if (row == sitesLength) {
-            if (isOpen(row - 1, col)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row - 1, col));
-            if (col == 0 && isOpen(row, col + 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col + 1));
-            else if (col == sitesLength && isOpen(row, col - 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col - 1));
-            else {
-                if (isOpen(row, col + 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col + 1));
-                if (isOpen(row, col - 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col - 1));
-            }
-        }
-        else {
-            if (isOpen(row, col + 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col + 1));
-            if (isOpen(row, col - 1)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row, col - 1));
-            if (isOpen(row + 1, col)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row + 1, col));
-            if (isOpen(row - 1, col)) myWeightedQuickUnionUF.union(indexValue(row, col), indexValue(row - 1, col));
-        }
-        return;
+        sites[row][col] = true;
+        if (col > 1 && sites[row][col - 1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
+        if (col < sitesLength && sites[row][col + 1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
+        if (row > 1 && sites[row - 1][col]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row - 1, col));
+        if (row < sitesLength && sites[row + 1][col]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row + 1, col));
     }
 
     // is site (row, col) open?
     public boolean isOpen(int row, int col) {
         checkArgument(row);
         checkArgument(col);
-        return sites[row - 1][col - 1];
+        return sites[row][col];
     }
 
     // is site (row, col) full?
     public boolean isFull(int row, int col) {
-        return false;
+        checkArgument(row);
+        checkArgument(col);
+        return myWeightedQuickUnionUF.connected(xyTo1D(row, col), 0);
     }
 
     // number of open sites
     public int numberOfOpenSites() {
-        return 0;
+        return myWeightedQuickUnionUF.count();
     }
 
     // does the system percolate?
@@ -74,17 +54,20 @@ public class Percolation {
         return false;
     }
 
-    public void checkArgument(int n) {
+    private void checkArgument(int n) {
         if (n <= 0 || n > sites.length) {
-            throw new IllegalArgumentException(Integer.toString(n));
+            System.out.println("n = " + n);
+            throw new IndexOutOfBoundsException("Index out of bounds");
         }
     }
 
-    public int indexValue(int row, int col) {
+    private int xyTo1D(int row, int col) {
+        row -= 1;
+        col -= 1;
         return ((sitesLength * row) + col);
     }
 
-    public void printSites() {
+    private void printSites() {
         // System.out.println(Arrays.deepToString(myPercolation.sites));
         System.out.println("Printing Sites");
         for (boolean[] site : sites) {
@@ -95,10 +78,20 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
         Percolation myPercolation = new Percolation(3);
-        System.out.println("N = " + myPercolation.sites.length);
+        System.out.println("N = " + (myPercolation.sitesLength));
         myPercolation.printSites();
+        myPercolation.open(1, 1);
+        myPercolation.open(1, 2);
+        myPercolation.open(1, 3);
+        myPercolation.open(2, 1);
         myPercolation.open(2, 2);
+        myPercolation.open(2, 3);
         myPercolation.printSites();
+        System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 1));
+        System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 3));
+        System.out.println(myPercolation.myWeightedQuickUnionUF.connected(1, 4));
+        System.out.println(myPercolation.myWeightedQuickUnionUF.connected(3, 4));
+        System.out.println(myPercolation.numberOfOpenSites());
     }
  }
 
