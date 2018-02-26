@@ -10,6 +10,7 @@ public class Percolation {
     boolean[][] sites;
     WeightedQuickUnionUF myWeightedQuickUnionUF;
     int sitesLength;
+    private int openSiteCount = 0;
 
     // create n-by-n grid, with all sites blocked
     public Percolation(int n) {
@@ -24,6 +25,7 @@ public class Percolation {
         checkArgument(row);
         checkArgument(col);
         sites[row][col] = true;
+        openSiteCount++;
         if (col > 1 && sites[row][col - 1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col - 1));
         if (col < sitesLength && sites[row][col + 1]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row, col + 1));
         if (row > 1 && sites[row - 1][col]) myWeightedQuickUnionUF.union(xyTo1D(row, col), xyTo1D(row - 1, col));
@@ -46,7 +48,7 @@ public class Percolation {
 
     // number of open sites
     public int numberOfOpenSites() {
-        return myWeightedQuickUnionUF.count();
+        return openSiteCount;
     }
 
     // does the system percolate?
@@ -80,18 +82,30 @@ public class Percolation {
         Percolation myPercolation = new Percolation(3);
         System.out.println("N = " + (myPercolation.sitesLength));
         myPercolation.printSites();
+
         myPercolation.open(1, 1);
         myPercolation.open(1, 2);
         myPercolation.open(1, 3);
+
         myPercolation.open(2, 1);
         myPercolation.open(2, 2);
         myPercolation.open(2, 3);
+
+        myPercolation.open(3, 1);
+        myPercolation.open(3, 2);
+        myPercolation.open(3, 3);
+
         myPercolation.printSites();
+        
         System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 1));
         System.out.println(myPercolation.myWeightedQuickUnionUF.connected(0, 3));
         System.out.println(myPercolation.myWeightedQuickUnionUF.connected(1, 4));
         System.out.println(myPercolation.myWeightedQuickUnionUF.connected(3, 4));
+        // System.out.println(myPercolation.myWeightedQuickUnionUF.count());
         System.out.println(myPercolation.numberOfOpenSites());
+        for (int i = 0; i < 3*3; i++) {
+            System.out.println("Find(" + i + ") = " + myPercolation.myWeightedQuickUnionUF.find(i));
+        }
     }
  }
 
